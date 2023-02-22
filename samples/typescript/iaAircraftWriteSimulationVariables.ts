@@ -197,9 +197,7 @@ open('Flick lights', Protocol.KittyHawk, options)
                 DefinitionID.LIGHTS,
                 lightName,
                 'Bool',
-                SimConnectDataType.INT32,
-                0,
-                index
+                SimConnectDataType.INT32
             );
         });
 

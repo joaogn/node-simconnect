@@ -80,7 +80,7 @@ export const InitialPositionDataDefiniton = [
 
 const options = { remote: { host: '192.168.5.155', port: 600 } };
 
-open('Flick lights', Protocol.FSX_SP2, options)
+open('Flick lights', Protocol.KittyHawk, options)
     .then(async ({ recvOpen, handle }) => {
         console.log('Connected:', recvOpen);
 
@@ -192,12 +192,14 @@ open('Flick lights', Protocol.FSX_SP2, options)
 
         const lights = ['LIGHT LANDING', 'LIGHT LOGO', 'LIGHT TAXI', 'LIGHT WING', 'LIGHT NAV'];
 
-        lights.forEach(lightName => {
+        lights.forEach((lightName, index) => {
             handle.addToDataDefinition(
                 DefinitionID.LIGHTS,
                 lightName,
                 'Bool',
-                SimConnectDataType.INT32
+                SimConnectDataType.INT32,
+                0,
+                index
             );
         });
 
@@ -212,19 +214,18 @@ open('Flick lights', Protocol.FSX_SP2, options)
             lights.forEach(() => {
                 dataToSet.writeInt32(lightsOn ? 1 : 0);
             });
-
+            /*
             handle.setDataOnSimObject(DefinitionID.LIGHTS, SimConnectConstants.OBJECT_ID_USER, {
                 buffer: dataToSet,
                 arrayCount: 0,
                 tagged: false,
             });
-            /*
+*/
             handle.setDataOnSimObject(DefinitionID.LIGHTS, objectId, {
                 buffer: dataToSet,
                 arrayCount: 0,
                 tagged: false,
             });
-*/
         }, 1000);
 
         handle.on('exception', recvException => {
